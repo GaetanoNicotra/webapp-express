@@ -10,4 +10,7 @@ const filmController = require('../controllers/filmsController');
 // definisco le rotte
 
 // index
-router.get('/, bookControlle')
+router.get('/', filmController.index)
+
+// show
+router.get('/', filmController.show)
