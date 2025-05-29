@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 
 // numero di porta
-const port = 3000;
+const port = process.env.SERVER_PORT || 3000;
 
 // uso i middleware per gli asset statici
 app.use(express.static('public'));
