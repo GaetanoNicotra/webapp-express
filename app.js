@@ -14,11 +14,17 @@ const filmsRouter = require('./routers/filmRouter')
 const errorsHandler = require('./middlewears/errorsHandler');
 const notFound = require("./middlewears/notFound");
 
+// importo il middelware per le img
+const imagePathmdlw = require('./middlewears/imagePath')
+
 // uso i middleware per gli asset statici
 app.use(express.static('public'));
 
 // middleware per il parsing del body req
 app.use(express.json());
+
+// uso il middleware per le immagini
+app.use(imagePathmdlw)
 
 // definisco l'entry point
 app.get('/', (req, res) => {

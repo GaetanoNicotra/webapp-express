@@ -11,8 +11,15 @@ const index = (req, res) => {
         if (err) {
             return res.status(500).json({ error: 'database query failed' + err })
         }
-        console.log(results)
-        res.json(results)
+        // ciclo l'array per sovrascirvere il valore della propietà img
+        const film = results.map((film) => {
+            const obj = {
+                ...film,
+                image: req.imagePath + film.image
+            }
+            return obj
+        })
+        res.json(film)
     })
 }
 
@@ -40,7 +47,7 @@ const show = (req, res) => {
         connection.query(reviewsSql, [id], (err, reviewsResults) => {
             if (err) return res.status(500).json({ error: 'database query failed' + err })
             film.reviews = reviewsResults;
-            res.json(film)
+            res.json({ ...film, image: req.imagePath + film.image })
         })
     })
 }
