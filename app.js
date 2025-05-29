@@ -8,8 +8,8 @@ const app = express();
 const port = process.env.SERVER_PORT || 3000;
 
 // importo i custom middleware
-const errorsHandler = require('./middlewears/errorsHandler')
-const notFound = require("./middlewears/notFound")
+const errorsHandler = require('./middlewears/errorsHandler');
+const notFound = require("./middlewears/notFound");
 
 // uso i middleware per gli asset statici
 app.use(express.static('public'));
@@ -21,6 +21,10 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.send('Books API server')
 });
+
+// utilizzo i midelware
+app.use(errorsHandler)
+app.use(notFound)
 
 // metto in ascolto il server
 app.listen(port, () => {
