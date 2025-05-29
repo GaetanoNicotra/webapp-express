@@ -2,7 +2,17 @@ const connection = require('../data/db')
 
 // rotta index
 const index = (req, res) => {
-    console.log('tutti i film')
+    // recupero tuti i posts dal db
+    const sql = "SELECT * FROM movies"
+
+    // eseguo la query
+    connection.query(sql, (err, results) => {
+        if (err) {
+            return res.status(500).json({ error: 'database query failed' })
+        }
+        console.log(results)
+        res.json(results)
+    })
 }
 
 // rotta show
