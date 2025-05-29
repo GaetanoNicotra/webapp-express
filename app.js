@@ -7,6 +7,9 @@ const app = express();
 // numero di porta
 const port = process.env.SERVER_PORT || 3000;
 
+// importo il router
+const filmsRouter = require('./routers/filmRouter')
+
 // importo i custom middleware
 const errorsHandler = require('./middlewears/errorsHandler');
 const notFound = require("./middlewears/notFound");
@@ -22,7 +25,10 @@ app.get('/', (req, res) => {
     res.send('Books API server')
 });
 
-// utilizzo i midelware
+//utilizzo il router
+app.use('/api/films', filmsRouter);
+
+// utilizzo i midelware degli errori
 app.use(errorsHandler)
 app.use(notFound)
 
