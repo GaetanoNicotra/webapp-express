@@ -26,7 +26,11 @@ const index = (req, res) => {
 // rotta show
 const show = (req, res) => {
     const { id } = req.params;
-    const filmsql = "SELECT * FROM movies WHERE id = ?"
+    const filmsql = `SELECT movies.* , ROUND(AVG(reviews.vote)) AS average_vote
+    FROM movies
+    JOIN reviews ON reviews.movie_id = movies.id
+    WHERE movies.id = ?
+    GROUP BY movies.id`
 
     // query per le recensioni del film con l'id cercato
     const reviewsSql = `
@@ -46,7 +50,11 @@ const show = (req, res) => {
 
         connection.query(reviewsSql, [id], (err, reviewsResults) => {
             if (err) return res.status(500).json({ error: 'database query failed' + err })
+            // aggiungo la media per il singolo libro
             film.reviews = reviewsResults;
+            // aggiungo la media dei voti
+            film.average_vote = parseInt(film.average_vote);
+
             res.json({ ...film, image: req.imagePath + film.image })
         })
     })
