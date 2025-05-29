@@ -32,16 +32,16 @@ const show = (req, res) => {
         if (err) return res.status(500).json({ error: 'database query failed' + err })
 
         // verifico se non trovo il film
-
         if (results.length === 0 || results[0].id === null) return notFound(null, res, null)
 
         // eseguo la query per recuperare le recensioni
         const film = results[0]
+
         connection.query(reviewsSql, [id], (err, reviewsResults) => {
             if (err) return res.status(500).json({ error: 'database query failed' + err })
-
+            film.reviews = reviewsResults;
+            res.json(film)
         })
-        res.json(results)
     })
 }
 
