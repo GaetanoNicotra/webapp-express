@@ -13,7 +13,7 @@ const filmController = require('../controllers/filmsController');
 router.get('/', filmController.index);
 
 // show
-router.get('/', filmController.show);
+router.get('/:id', filmController.show);
 
 // esporto il router
 module.exports = router;
