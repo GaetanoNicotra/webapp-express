@@ -4,18 +4,24 @@ const express = require('express');
 // inizializzo express in una variabile
 const app = express();
 
+// importo il pacchetto delle cors policy
+const cors = require('cors');
+
 // numero di porta
 const port = process.env.SERVER_PORT || 3000;
 
 // importo il router
-const filmsRouter = require('./routers/filmRouter')
+const filmsRouter = require('./routers/filmRouter');
 
 // importo i custom middleware
 const errorsHandler = require('./middlewears/errorsHandler');
 const notFound = require("./middlewears/notFound");
 
 // importo il middelware per le img
-const imagePathmdlw = require('./middlewears/imagePath')
+const imagePathmdlw = require('./middlewears/imagePath');
+
+// utilizzo il middelware per le cors policy
+app.use(cors(({ origin: process.env.FE_APP })));
 
 // uso i middleware per gli asset statici
 app.use(express.static('public'));
@@ -24,7 +30,7 @@ app.use(express.static('public'));
 app.use(express.json());
 
 // uso il middleware per le immagini
-app.use(imagePathmdlw)
+app.use(imagePathmdlw);
 
 // definisco l'entry point
 app.get('/', (req, res) => {
