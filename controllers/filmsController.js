@@ -60,5 +60,23 @@ const show = (req, res) => {
     })
 }
 
+// rotta per l'inserimento di una nuova recensione
+const storeReview = (req, res) => {
+    // recupero l'id
+    const { id } = req.params;
+
+    // recupero i dati delle recensioni dal body request (postman)
+    const { name, vote, text } = req.body;
+
+    // creo la query
+    const sql = "INSERT INTO reviews (name, vote, text, movie_id) VALUES (?,?,?,?)"
+
+    // eseguo la query
+    connection.query(sql, [name, vote, text, id], (err, result) => {
+        if (err) return res.status(500).json({ error: "Database query failed" });
+        res.status(201).json({ message: "Recensione aggiunta con successo", id: result.insertId })
+    })
+}
+
 // esporto le rotte 
-module.exports = { index, show }
+module.exports = { index, show, storeReview };
